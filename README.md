@@ -1,6 +1,8 @@
 # img2gco
 Image to reprap gcode converter
 
+this mod adds m400 prior to every laser command. This allows Repetier to complete each move prior to changing state of the laser power. This may work for other firmwares, but as of now has only been tested on Davinci 1.0 running luc repetier .92. *Use this software at your own risk!*
+
 See http://wiki.nebarnix.com/wiki/Img2gco for overall project details!
 
 Todo:
