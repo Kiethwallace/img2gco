@@ -99,23 +99,23 @@ if(!isset($_POST['sizeY']) || $_POST['sizeY'] == 0)
 //header('Content-Type: text/plain; charset=utf-8');
 
 
-$laserMax=$_POST['LaserMax'];//$laserMax=65; //out of 255
-$laserMin=$_POST['LaserMin']; //$laserMin=20; //out of 255
-$laserOff=$_POST['LaserOff'];//$laserOff=13; //out of 255
+$laserMax=$_POST['LaserMax'];//$laserMax=255; //out of 255
+$laserMin=$_POST['LaserMin']; //$laserMin=3; //out of 255
+$laserOff=$_POST['LaserOff'];//$laserOff=0; //out of 255
 $whiteLevel=$_POST['whiteLevel'];
 
-$feedRate = $_POST['feedRate'];//$feedRate = 800; //in mm/sec
-$travelRate = $_POST['travelRate'];//$travelRate = 3000;
+$feedRate = $_POST['feedRate'];//$feedRate = 200; //in mm/sec
+$travelRate = $_POST['travelRate'];//$travelRate = 300;
 
 $overScan = $_POST['overScan'];//$overScan = 3;
 
-$offsetY=$_POST['offsetY'];//$offsetY=10;
+$offsetY=$_POST['offsetY'];//$offsetY=0;
 $sizeY=$_POST['sizeY'];//$sizeY=40;
-$scanGap=$_POST['scanGap'];//$scanGap=.1;
+$scanGap=$_POST['scanGap'];//$scanGap=.2;
 
-$offsetX=$_POST['offsetX'];//$offsetX=5;
+$offsetX=$_POST['offsetX'];//$offsetX=0;
 $sizeX=$sizeY*$w/$h; //SET A HEIGHT AND CALC WIDTH (this should be customizable)
-$resX=$_POST['resX'];;//$resX=.1;
+$resX=$_POST['resX'];;//$resX=.2;
 
 $pixelsX = round($sizeX/$resX);
 $pixelsY = round($sizeY/$scanGap);
@@ -164,6 +164,7 @@ $lineIndex--;
 
 print(";Verified size iin pixels X=$pixelIndex, Y=$lineIndex\n");*/
 print("G21\n");
+print("M400\n");
 print("M106 S$laserOff; Turn laser off\n");
 print("G1 F$feedRate\n");
 
@@ -207,6 +208,7 @@ for($line=$offsetY; $line<($sizeY+$offsetY); $line+=$scanGap)
       $rgb = imagecolorat($tmp,$pixelIndex,$lineIndex);
       $value = ($rgb >> 16) & 0xFF;
       $value = round(map($value,255,0,$laserMin,$laserMax),4);
+      print("M400\n");
       print("M106 S$value\n");
       $pixelIndex++;
       }
